@@ -1,0 +1,173 @@
+directive @validate(type: String!) on INPUT_FIELD_DEFINITION
+
+enum UserRole {
+  READER
+  WRITER
+  ADMIN
+}
+
+enum Priority {
+  LOW
+  MEDIUM
+  HIGH
+}
+
+enum Visibility {
+  PRIVATE
+  SHARED
+  PUBLIC
+}
+
+enum AccessLevel {
+  READER
+  WRITER
+  ADMIN
+}
+
+type User {
+  id: ID!
+  email: String!
+  githubID: String!
+  role: UserRole!
+  createdAt: String!
+  updatedAt: String!
+}
+
+type List {
+  id: ID!
+  name: String!
+  description: String
+  owner: User!
+  visibility: Visibility!
+  tags: [String!]
+  createdAt: String!
+  updatedAt: String!
+  todos: [Todo!]!
+  collaborators: [ListAccess!]!
+}
+
+type Todo {
+  id: ID!
+  list: List!
+  title: String!
+  description: String
+  completed: Boolean!
+  dueDate: String
+  startDate: String
+  priority: Priority
+  tags: [String!]
+  createdAt: String!
+  updatedAt: String!
+  assignedTo: User
+}
+
+type ListAccess {
+  list: List!
+  user: User!
+  accessLevel: AccessLevel!
+  status: String
+}
+
+input CreateUserInput {
+  email: String! @validate(type: "email")
+  githubId: String!
+  role: UserRole!
+}
+
+input UpdateUserInput {
+  githubID: String
+  email: String @validate(type: "email")
+  role: UserRole
+}
+
+input CreateListInput {
+  name: String! @validate(type: "name")
+  description: String
+  visibility: Visibility!
+  tags: [String!]
+  shared: [String!]
+}
+
+input UpdateListInput {
+  name: String @validate(type: "name")
+  description: String
+  visibility: Visibility
+  tags: [String!]
+}
+
+input CreateTodoInput {
+  listId: ID!
+  title: String!
+  description: String
+  dueDate: String
+  startDate:String
+  priority: Priority
+  tags: [String!]
+  completed: Boolean
+  assignedTo: ID
+}
+
+input UpdateTodoInput {
+  title: String
+  description: String
+  completed: Boolean
+  dueDate: String
+  startDate: String
+  priority: Priority
+  tags: [String!]
+  assignedTo: ID
+}
+
+input GrantListAccessInput {
+  listId: ID!
+  userId: ID!
+  accessLevel: AccessLevel!
+  status: String
+}
+
+type Query {
+  users: [User!]!
+  user(id: ID!): User
+  userByEmail: User
+  usersByList(id: ID!): [User!]!
+
+  listsGlobal: [List!]!
+  list(id: ID!): List
+  listsPending: [List!]!
+  lists: [List!]!
+  listsAccepted: [List!]!
+
+  todosGlobal: [Todo!]!
+  todo(id: ID!): Todo
+  todosByList(id: ID!): [Todo!]!
+  todos: [Todo!]!
+
+  getListAccesses(listId: ID!): [ListAccess!]!
+}
+
+type Mutation {
+  createUser(input: CreateUserInput!): User!
+  updateUser(id: ID!, input: UpdateUserInput!): User!
+  deleteUser(id: ID!): User!
+
+  createList(input: CreateListInput!): List!
+  updateListName(id: ID!, name: String!): List!
+  updateListDescription(id: ID!, description: String!): List!
+  updateList(id: ID!, input: UpdateListInput!): List!
+  deleteList(id: ID!): List!
+
+  createTodo(input: CreateTodoInput!): Todo!
+  updateTodoTitle(id: ID!, title: String!): Todo!
+  updateTodoDescription(id: ID!, description: String!): Todo!
+  updateTodoPriority(id: ID!, priority: Priority!): Todo!
+  updateTodoAssignTo(id: ID!, userID: ID!): Todo!
+  completeTodo(id: ID!): Todo!
+  updateTodo(id: ID!, input: UpdateTodoInput!): Todo!
+  deleteTodo(id: ID!): Todo!
+
+  addListAccess(input: GrantListAccessInput!): ListAccess!
+  removeListAccess(listId: ID!): ListAccess!
+
+  acceptList(listId: ID!): Boolean
+  removeCollaborator(listId: ID!, userId: ID!): ListAccess!
+}
