@@ -19,11 +19,14 @@ jobs:
 
     - name: Install dependencies
       run: |
+        cd todoservice
         go mod tidy
 
     - name: Run tests
       run: |
+        cd todoservice
         go test -v ./...
     - name: Build
       run: |
+        cd todoservice
         go build -o myapp .
