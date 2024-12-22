@@ -5,9 +5,6 @@ WORKDIR /app
 COPY go.mod go.sum ./
 COPY .env ./
 
-ARG GIT_PRIVATEMODULESGITTOKEN
-RUN go env -w GOPRIVATE=github.tools.sap
-RUN git config --global --add url."https://${GIT_PRIVATEMODULESGITTOKEN}@github.tools.sap".insteadOf "https://github.tools.sap"
 RUN go mod download
 
 COPY . .
