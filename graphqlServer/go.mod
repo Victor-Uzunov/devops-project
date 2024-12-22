@@ -12,7 +12,7 @@ require (
 	github.com/vektah/gqlparser/v2 v2.5.16
 )
 
-require github.com/Victor-Uzunov/devops-project/todoservice v0.0.0-20241101081808-f7afab0ad897
+require github.com/Victor-Uzunov/devops-project/todoservice v0.0.0-20241222102949-251bf1f433bb
 
 require (
 	github.com/agnivade/levenshtein v1.1.1 // indirect
