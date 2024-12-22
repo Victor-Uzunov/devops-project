@@ -1,0 +1,2 @@
+ALTER TABLE todos
+ALTER COLUMN assigned_to SET NOT NULL;

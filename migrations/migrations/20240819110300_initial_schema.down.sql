@@ -1,0 +1,14 @@
+BEGIN;
+
+DROP INDEX IF EXISTS idx_lists_owner_id;
+DROP INDEX IF EXISTS idx_todos_list_id;
+
+DROP TABLE IF EXISTS list_access;
+
+DROP TABLE IF EXISTS todos;
+
+DROP TABLE IF EXISTS lists;
+
+DROP TABLE IF EXISTS users;
+
+COMMIT;
