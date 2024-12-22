@@ -1,0 +1,8 @@
+../.idea
+.idea
+.env
+node_modules/
+todoapp-chart/templates/secret.yaml
+graphqlServer/main
+todoservice/main
+.DS_Store
