@@ -1,0 +1,20 @@
+# Ignore the Dockerfile and .dockerignore
+Dockerfile
+.dockerignore
+
+# Ignore version control files and directories
+.git
+.gitignore
+
+# Ignore Go test binaries and results
+*.test
+*.log
+
+# Ignore local dependency directories and editor-specific files
+vendor/
+node_modules/
+.idea/
+.vscode/
+
+# Ignore executables and binaries in the root directory
+main
