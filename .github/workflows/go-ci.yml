@@ -28,5 +28,5 @@ jobs:
         go test -v ./...
     - name: Build
       run: |
-        cd todoservice
+        cd todoservice/cmd/todoapp
         go build -o myapp .
